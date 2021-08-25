@@ -1,0 +1,30 @@
+# for local development
+version: "3.7"
+
+networks:
+  meucrediario-private-network:
+    external: true
+
+services:
+  app:
+    container_name: project-starter
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - 3000:3000
+      - 9229:9229
+      - 3001:3001
+    stdin_open: true
+    tty: true
+    volumes:
+      - ".:/srv/www"
+      - /srv/www/node_modules/
+    networks:
+      - meucrediario-private-network
+    command: $COMMAND_DOCKER #'sh -c "cd config && node run.mjs"'
+    env_file:
+      - .env.local
+      - .env.${NODE_ENV}.local
+      - .env.${NODE_ENV}
+      - .env

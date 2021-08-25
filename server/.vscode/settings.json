@@ -1,0 +1,39 @@
+{
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.perEditorGroup": true,
+    "workbench.editor.limit.value": 7,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+        "typescriptreact"
+    ],
+    "editor.formatOnSave": true,
+    "[vue]": {
+        "editor.formatOnSave": false
+    },
+    "[javascript]": {
+        "editor.formatOnSave": false
+    },
+    "[javascriptreact]": {
+        "editor.formatOnSave": false
+    },
+    "[typescript]": {
+        "editor.formatOnSave": false
+    },
+    "[typescriptreact]": {
+        "editor.formatOnSave": false
+    },
+    "editor.detectIndentation": false,
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2d2e69",
+        "titleBar.activeBackground": "#353774",
+        "titleBar.activeForeground": "#7575d4"
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.tabSize": 4
+}
