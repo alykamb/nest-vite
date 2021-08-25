@@ -2,13 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
-            "request": "launch",
-            "name": "Local Debug",
-            "program": "${workspaceFolder}/dist/server.js",
-            "outFiles": ["${workspaceFolder}/**/*.js"]
-        },
-        {
             "name": "Container Debug",
             "type": "node",
             "request": "attach",
@@ -19,13 +12,6 @@
             "protocol": "inspector",
             "timeout": 100000,
             "restart": true
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Jest Tests",
-            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
-            "args": ["-i"]
         }
     ]
 }
