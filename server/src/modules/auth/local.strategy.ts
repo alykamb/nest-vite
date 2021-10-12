@@ -10,9 +10,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         super()
     }
 
-    /**
-     * Após validar, o usuário é injetado no req.user
-     */
     public async validate(username: string, password: string): Promise<any> {
         const user = await this.authService.validateUser(username, password)
         if (!user) {

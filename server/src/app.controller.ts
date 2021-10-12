@@ -5,11 +5,10 @@ import { Request, Response } from 'express'
 
 import { JWT_COOKIE } from './modules/auth/jwt.constants'
 import { JwtAuthGuard } from './modules/auth/jwt.guard'
-import { RabbitMq } from './modules/rabbitmq/rabbitmq'
 
 @Controller()
 export class AppController {
-    constructor(private jwtService: JwtService, private rabbitmq: RabbitMq) {}
+    constructor(private jwtService: JwtService) {}
 
     @Get('login')
     public async login(): Promise<any> {
@@ -55,16 +54,5 @@ export class AppController {
     @Get('/probe/alive')
     public alive(): string {
         return 'service is ready'
-    }
-
-    @Post('/command/:name')
-    public command(@Param('name') name: string, @Body() data: any): Promise<any> {
-        return this.rabbitmq.sendCommand(name, data)
-    }
-
-    @Get('/results/:name')
-    public results(@Param('name') name: string): Promise<any> {
-        void this.rabbitmq.commandRunner(name, (obj: any) => `Hello ${obj.nome}`)
-        return
     }
 }

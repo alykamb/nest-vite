@@ -1,44 +1,34 @@
 import { Injectable } from '@nestjs/common'
-import axios from 'axios'
-import { Response } from 'express'
+import { FastifyReply } from 'fastify'
+import { createReadStream } from 'fs'
 import { lookup } from 'mime-types'
 import { extname, join, resolve } from 'path'
 
 @Injectable()
 export class AppService {
-    public sendStaticFile(requestedFile: string, res: Response): void {
-        const fileName = requestedFile
-        const clientDist = resolve(__dirname, '..', '..', 'client', 'dist')
-        res.sendFile(join(clientDist, fileName))
-    }
+    public sendStaticFile(requestedFile: string, res: FastifyReply, folder = ''): void {
+        let clientDist = resolve(__dirname, '..', '..', 'client', folder)
+        let fileName = requestedFile
+        const ext = extname(fileName)
 
-    public getFileFromVite(requestedFile: string, res: Response): void {
-        if (requestedFile === 'index.html') {
-            const fileName = requestedFile
-            const clientDist = resolve(__dirname, '..', '..', 'client')
-            res.sendFile(join(clientDist, fileName))
-            return
+        // if it's not a file, send the index and let the spa handle the route (or 404)
+        if (!ext.length) {
+            fileName = 'index.html'
         }
-        //quebra o caminho do arquivo para usar a extensão verdadeira, não a da query string
-        let extension = extname(requestedFile.split('?')[0])
-        //troca de ts pra js
-        if (extension === '.ts') {
-            extension = '.js'
+        if (fileName === 'index.html') {
+            clientDist = resolve(__dirname, '..', '..', 'client')
         }
 
-        const mimeType = lookup(extension) || 'application/javascript'
+        const type = lookup(extname(fileName))
 
-        res.setHeader('Content-Type', mimeType)
-        void axios(`http://localhost:3001/${requestedFile}`, {
-            method: 'GET',
-            responseType: 'stream',
-        }).then((response) => response?.data.pipe(res))
+        void res.header('Content-Type', type)
+        void res.send(createReadStream(join(clientDist, fileName)))
     }
 
-    public getFile(requestedFile: string, res: Response): void {
+    public async getFile(requestedFile: string, res: FastifyReply): Promise<void> {
         if (process.env.NODE_ENV === 'production') {
-            return this.sendStaticFile(requestedFile, res)
+            return this.sendStaticFile(requestedFile, res, 'dist')
         }
-        return this.getFileFromVite(requestedFile, res)
+        return this.sendStaticFile(requestedFile, res)
     }
 }

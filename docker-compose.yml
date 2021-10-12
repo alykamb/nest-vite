@@ -7,7 +7,7 @@ networks:
 
 services:
   app:
-    container_name: project-starter
+    container_name: nest-vite
     build:
       context: .
       dockerfile: dev.Dockerfile

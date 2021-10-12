@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { JwtModuleOptions } from '@nestjs/jwt'
+import { JWT_SECRET } from './jwt.constants'
 
 @Injectable()
 export class JwtConfigService {
-    constructor(private config: ConfigService) {}
+    constructor() {}
 
     public async createJwtOptions(): Promise<JwtModuleOptions> {
         return {
-            publicKey: this.config.get('jwt.publicKey'),
-            privateKey: this.config.get('jwt.privateKey'),
+            secret: JWT_SECRET,
             verifyOptions: {
-                algorithms: ['RS256'],
+                algorithms: ['HS256'],
             },
             signOptions: {
                 expiresIn: '1d',
-                algorithm: 'RS256',
+                algorithm: 'HS256',
             },
         }
     }
