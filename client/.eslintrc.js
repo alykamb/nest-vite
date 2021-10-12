@@ -3,13 +3,10 @@ module.exports = {
     env: {
         node: true,
     },
-    plugins: ['sort-class-members', 'simple-import-sort', '@typescript-eslint'],
+    plugins: ['react', 'import', '@typescript-eslint', 'sort-class-members', 'simple-import-sort', ],
     extends: [
-        'plugin:vue/vue3-essential',
         'eslint:recommended',
-        // "@vue/typescript/recommended",
-        '@vue/prettier',
-        '@vue/prettier/@typescript-eslint',
+        'plugin:@typescript-eslint/recommended',
     ],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
